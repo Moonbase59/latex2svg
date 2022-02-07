@@ -3,6 +3,24 @@
 Python wrapper and CLI utility to render LaTeX markup and equations as SVG using
 [dvisvgm](https://dvisvgm.de/) and [svgo](https://github.com/svg/svgo).
 
+Based on the [original work](https://github.com/tuxu/latex2svg) by Tino Wagner, this version has enhanced features.
+
+The **design goals** are:
+
+- **Auto vertical alignment** without any further styling.
+  - by adding a `style="vertical-align:"` to the SVG attributes
+- **Auto scaling** on font size/zoom change.
+  - by using `em` units for `width`, `height` and `style`
+- **Unique IDs** so multiple SVGs on one page won’t corrupt each other.
+  - by generating random 4-character ID prefixes within the SVG
+- **Minified SVG** for direct inclusion.
+  - by using `svgo` (a Node app)
+- For **_e-book readers_** and **_dictionaries_**:
+  - Good legibility.
+  - Direct inclusion as `<svg>`, not necessarily `<img>`.
+  - Possibility for easy CSS styling, i.e. using `fill`.
+  - Compatibility with [`pyglossary`](https://github.com/ilius/pyglossary) and the [ebook-reader-dict](https://github.com/BoboTiG/ebook-reader-dict) project.
+  - Possibility of LaTeX preamble changes/additions, to correct LaTeX code in automated processes like converting a Wiktionary dump to an e-reader dictionary.
 
 ## Usage
 
@@ -32,8 +50,16 @@ optional arguments:
 $ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
 ```
 
-Resulting SVG:  
+Result:
+
 <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height: 1.061594em; vertical-align: -0.313097em;" alt="sample formula" />
+
+## Requirements
+
+- Python 3
+- A working LaTeX installation, like _Tex Live_ or _MacTeX_
+- [dvisvgm](https://dvisvgm.de/)
+- [svgo](https://github.com/svg/svgo)
 
 ## License
 
