@@ -32,7 +32,7 @@ optional arguments:
 $ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
 ```
 
-Result: <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height:1.061594em; vertical-align:-0.313097em;" alt="sample formula">, perfectly aligned (hopefully).
+Result: <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height: 1.061594em; vertical-align: -0.313097em;" alt="sample formula" />, perfectly aligned (hopefully).
 
 ## License
 
