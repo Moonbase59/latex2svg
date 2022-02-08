@@ -21,6 +21,7 @@ The **design goals** are:
   - Possibility for easy CSS styling, i.e. using `fill`.
   - Compatibility with [`pyglossary`](https://github.com/ilius/pyglossary) and the [ebook-reader-dict](https://github.com/BoboTiG/ebook-reader-dict) project.
   - Possibility of LaTeX preamble changes/additions, to correct LaTeX code in automated processes like converting a Wiktionary dump to an e-reader dictionary.
+  - See [examples/screenshots.md](examples/screenshots.md) for a real-life example.
 
 ## Usage
 
