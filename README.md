@@ -111,6 +111,16 @@ The SVG won’t be stylable using a CSS <code>fill</code> in this case.
 ```
 **This is _not_ a limitation of `latex2svg`.**
 
+Python module coding example:
+
+```python
+from latex2svg import latex2svg
+out = latex2svg(r'$\sin(x) = \sum_{n=0}^{\infty} \dots$')
+with open('sample3.svg', 'w') as f:
+    f.write(out['svg'])
+print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
+```
+
 ## Requirements
 
 - Python 3
