@@ -9,7 +9,7 @@ IDs in case more than one is used on the same HTML page.
 
 Based on [original work](https://github.com/tuxu/latex2svg) by Tino Wagner.
 """
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __author__ = 'Matthias C. Hormann'
 __email__ = 'mhormann@gmx.de'
 __license__ = 'MIT'
@@ -124,7 +124,7 @@ def latex2svg(code, params=default_params, working_directory=None):
         * `svg`: SVG data
         * `width`: image width in *em*
         * `height`: image height in *em*
-        * `valign`: baseline position in *em*
+        * `valign`: baseline offset in *em*
     """
     if working_directory is None:
         with TemporaryDirectory() as tmpdir:
@@ -236,7 +236,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="""
     Render LaTeX code from stdin as SVG to stdout. Writes metadata (baseline
-    position, width, height in em units) into the SVG attributes.
+    offset, width, height in em units) into the SVG attributes.
     """)
     parser.add_argument('--version', action='version',
                     version='%(prog)s {version}'.format(version=__version__))
