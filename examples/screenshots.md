@@ -21,18 +21,24 @@ svg {
 }
 ```
 
-![GoldenDict](linux-goldendict.png)
+![GoldenDict](linux-goldendict.png)  
+_GoldenDict_
 
-![GoldenDict, zoomed](linux-goldendict-zoomed.png)
+![GoldenDict, zoomed](linux-goldendict-zoomed.png)  
+_GoldenDict, zoomed_
 
 ## On Android (StarDict)
 
-![GoldenDict](android-goldendict.png)
+![GoldenDict](android-goldendict.png)  
+_GoldenDict_
 
-![Librera (using GoldenDict)](android-librera-goldendict.png)
+![Librera (using GoldenDict)](android-librera-goldendict.png)  
+_Librera (using GoldenDict)_
 
-![KOReader (using GoldenDict)](android-koreader-goldendict.png)
+![KOReader (using GoldenDict)](android-koreader-goldendict.png)  
+_KOReader (using GoldenDict)_
 
 ## On a Kobo E-Reader (dicthtml)
 
-![Kobo Aura HD](kobo.png)
+![Kobo Aura HD](kobo.png)  
+_Kobo Aura HD_
