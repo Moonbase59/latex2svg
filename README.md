@@ -30,7 +30,7 @@ The **design goals** are:
 ```python
 from latex2svg import latex2svg
 out = latex2svg(r'$\sin(x) = \sum_{n=0}^{\infty} \dots$')
-print(out['valign'])  # baseline position in em
+print(out['valign'])  # baseline offset in em
 print(out['svg'])  # rendered SVG
 ```
 
@@ -41,7 +41,7 @@ $ ./latex2svg.py --help
 usage: latex2svg.py [-h] [--version] [--preamble PREAMBLE]
 
 Render LaTeX code from stdin as SVG to stdout. Writes metadata (baseline
-position, width, height in em units) into the SVG attributes.
+offset, width, height in em units) into the SVG attributes.
 
 optional arguments:
   -h, --help           show this help message and exit
