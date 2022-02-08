@@ -55,7 +55,7 @@ Result:
 
 <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height: 1.061594em; vertical-align: -0.313097em;" alt="sample formula" />
 
-### Default LaTeX preamble
+### Changing the default LaTeX preamble
 
 In case you want to change it using `--preamble`, here is the built-in _default preamble_:
 
@@ -79,6 +79,23 @@ In case you want to change it using `--preamble`, here is the built-in _default 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
+```
+
+Python module coding example:
+
+```python
+import latex2svg
+params = latex2svg.default_params
+params['preamble'] = r"""
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+"""
+out = latex2svg.latex2svg(r'$\sin(x) = \sum_{n=0}^{\infty} \dots$', params)
+with open('sample2.svg', 'w') as f:
+    f.write(out['svg'])
 ```
 
 ### Inline vs. external SVG usage
