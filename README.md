@@ -54,6 +54,19 @@ Result:
 
 <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height: 1.061594em; vertical-align: -0.313097em;" alt="sample formula" />
 
+### Internal vs. external SVG usage
+
+Using SVGs as _inline SVG_ should work perfectly well in all cases.
+
+Should you need to include SVGs as an _external_ HTML `<img>`, you _must_ include <i>latex2svg</i>’s computed <code>valign</code> value
+in the <code>&lt;img&gt;</code> tag as a <code>style="vertical-align: …"</code> attribute to achieve correct alignment.
+The SVG won’t be stylable using a CSS <code>fill</code> in this case.
+
+```html
+<img src="density.svg" style="vertical-align:-.600321em">
+```
+**This is _not_ a limitation of `latex2svg`.**
+
 ## Requirements
 
 - Python 3
