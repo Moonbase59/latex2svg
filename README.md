@@ -55,7 +55,7 @@ Result:
 
 <img src="https://cdn.rawgit.com/Moonbase59/latex2svg/master/sample.svg" style="height: 1.061594em; vertical-align: -0.313097em;" alt="sample formula" />
 
-### Internal vs. external SVG usage
+### Inline vs. external SVG usage
 
 Using SVGs as _inline SVG_ should work perfectly well in all cases.
 
