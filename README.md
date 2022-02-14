@@ -1,7 +1,8 @@
 # latex2svg
 
 Python wrapper and CLI utility to render LaTeX markup and equations as SVG using
-[dvisvgm](https://dvisvgm.de/) and [svgo](https://github.com/svg/svgo).
+[dvisvgm](https://dvisvgm.de/) and [scour](https://github.com/scour-project/scour)
+(or optionally [svgo](https://github.com/svg/svgo)).
 
 Based on the [original work](https://github.com/tuxu/latex2svg) by Tino Wagner, this version has enhanced features.
 
@@ -23,6 +24,15 @@ The **design goals** are:
   - Possibility of LaTeX preamble changes/additions, to correct LaTeX code in automated processes like converting a Wiktionary dump to an e-reader dictionary.
   - See [examples/screenshots.md](examples/screenshots.md) for a real-life example.
 
+**Note:** This tool is intended to produce _inline SVGs_, so the _XML prolog_
+normally found in standard SVG files gets _stripped_ per default.
+
+Should you need the SVG for other purposes that require the XML prolog, just add
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+```
+as the first line in the file.
+
 ## Usage
 
 ### Python 3 module
@@ -39,14 +49,17 @@ print(out['svg'])  # rendered SVG
 ```
 $ ./latex2svg.py --help
 usage: latex2svg.py [-h] [--version] [--preamble PREAMBLE]
+                 [--optimizer {scour,svgo,none}]
 
 Render LaTeX code from stdin as SVG to stdout. Writes metadata (baseline
 offset, width, height in em units) into the SVG attributes.
 
 optional arguments:
-  -h, --help           show this help message and exit
-  --version            show program's version number and exit
-  --preamble PREAMBLE  LaTeX preamble code to read from file
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --preamble PREAMBLE   LaTeX preamble code to read from file
+  --optimizer {scour,svgo,none}
+                        SVG optimzer to use (default: scour)
 
 $ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
 ```
@@ -126,7 +139,26 @@ print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 - Python 3
 - A working LaTeX installation, like _Tex Live_ or _MacTeX_
 - [dvisvgm](https://dvisvgm.de/)
+- [scour](https://github.com/scour-project/scour) (preferred and default), **—or—**
 - [svgo](https://github.com/svg/svgo)
+
+## Change Log
+
+**0.2.0**
+
+- first public version
+
+**0.2.1**
+
+- some small bug fixes
+
+**0.3.0** — 2022-02-14
+
+- Now uses `scour` as default SVG optimizer (instead of `svgo`). This produces
+  even smaller SVGs, and it’s "all Python" (`pip3 install scour`).
+- The SVG optimizer to be used can now be set via the `--optimizer` command line
+  option, or by setting `params['optimizer']` if using this as a Python module.
+  Possible values are: `scour` (the default), `svgo` or `none`.
 
 ## License
 

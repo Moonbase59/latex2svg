@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """latex2svg
 
-Read LaTeX code from stdin and render a SVG using LaTeX, dvisvgm and svgo.
+Read LaTeX code from stdin and render a SVG using LaTeX, dvisvgm and scour.
 
 Returns a minified SVG with `width`, `height` and `style="vertical-align:"`
 attribues whose values are in `em` units. The SVG will have (pseudo-)unique
@@ -9,7 +9,7 @@ IDs in case more than one is used on the same HTML page.
 
 Based on [original work](https://github.com/tuxu/latex2svg) by Tino Wagner.
 """
-__version__ = '0.2.1'
+__version__ = '0.3.0'
 __author__ = 'Matthias C. Hormann'
 __email__ = 'mhormann@gmx.de'
 __license__ = 'MIT'
@@ -80,7 +80,13 @@ module.exports = {
 
 latex_cmd = 'latex -interaction nonstopmode -halt-on-error'
 dvisvgm_cmd = 'dvisvgm --no-fonts'
-svgo_cmd = 'svgo'
+svgo_cmd = 'svgo -i {{ infile }} -o {{ outfile }}'
+# scour uses a default "precision" of 5 significant digits
+# Good enough? Or should we add "--set-precision=7" (or 8)?
+# not a tuple but a long concatenated string:
+scour_cmd = ('scour --shorten-ids --shorten-ids-prefix="{{ prefix }}" '
+    '--no-line-breaks --remove-metadata --enable-comment-stripping '
+    '--strip-xml-prolog -i {{ infile }} -o {{ outfile }}')
 
 default_params = {
     'fontsize': 12,  # TeX pt
@@ -90,6 +96,8 @@ default_params = {
     'dvisvgm_cmd': dvisvgm_cmd,
     'svgo_cmd': svgo_cmd,
     'svgo_config': default_svgo_config,
+    'scour_cmd': scour_cmd,
+    'optimizer': 'scour',
     'libgs': None,
 }
 
@@ -199,27 +207,55 @@ def latex2svg(code, params=default_params, working_directory=None):
     svg.set('style', f'vertical-align:{-depth:.6f}em')
     xml.write(os.path.join(working_directory, 'code.svg'))
 
-    # Run svgo to get a minified oneliner with (pseudo-)unique Ids
+    # Run optimizer to get a minified oneliner with (pseudo-)unique Ids
     # generate random prefix using ASCII letters (ID may not start with a digit)
     import random, string
-    prefix = ''.join(random.choice(string.ascii_letters) for n in range(4))
+    prefix = ''.join(random.choice(string.ascii_letters) for n in range(3))
+    svgo_cmd = (params['svgo_cmd']
+        .replace('{{ infile }}', 'code.svg')
+        .replace('{{ outfile }}', 'optimized.svg'))
     svgo_config = (params['svgo_config']
-                .replace('{{ prefix }}', prefix))
+        .replace('{{ prefix }}', prefix))
+    # with scour, input & output files must be different
+    scour_cmd = (params['scour_cmd']
+        .replace('{{ prefix }}', prefix+'_')
+        .replace('{{ infile }}', 'code.svg')
+        .replace('{{ outfile }}', 'optimized.svg'))
 
-    # write svgo params file
-    with open(os.path.join(working_directory, 'svgo.config.js'), 'w') as f:
-        f.write(svgo_config)
+    if params['optimizer'] == 'scour':
+        # optimize SVG using scour (default)
+        try:
+            ret = subprocess.run(shlex.split(scour_cmd),
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                 cwd=working_directory, env=env)
+            ret.check_returncode()
+        except FileNotFoundError:
+            raise RuntimeError('scour not found')
 
-    try:
-        ret = subprocess.run(shlex.split(params['svgo_cmd']+' code.svg'),
-                             stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                             cwd=working_directory, env=env)
-        ret.check_returncode()
-    except FileNotFoundError:
-        raise RuntimeError('svgo not found')
+        with open(os.path.join(working_directory, 'optimized.svg'), 'r') as f:
+            svg = f.read()
 
-    with open(os.path.join(working_directory, 'code.svg'), 'r') as f:
-        svg = f.read()
+    elif params['optimizer'] == 'svgo':
+        # optimize SVG using svgo (optional)
+        # write svgo params file
+        with open(os.path.join(working_directory, 'svgo.config.js'), 'w') as f:
+            f.write(svgo_config)
+
+        try:
+            ret = subprocess.run(shlex.split(svgo_cmd),
+                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                 cwd=working_directory, env=env)
+            ret.check_returncode()
+        except FileNotFoundError:
+            raise RuntimeError('svgo not found')
+
+        with open(os.path.join(working_directory, 'optimized.svg'), 'r') as f:
+            svg = f.read()
+
+    else:
+        # no optimization, just return SVG
+        with open(os.path.join(working_directory, 'code.svg'), 'r') as f:
+            svg = f.read()
 
     return {'svg': svg, 'valign': round(-depth,6),
         'width': round(width,6), 'height': round(height,6)}
@@ -242,6 +278,9 @@ def main():
                     version='%(prog)s {version}'.format(version=__version__))
     parser.add_argument('--preamble',
                         help="LaTeX preamble code to read from file")
+    parser.add_argument('--optimizer', choices=['scour', 'svgo', 'none'],
+        default='scour',
+        help='SVG optimzer to use (default: %(default)s)')
     args = parser.parse_args()
     preamble = default_preamble
     if args.preamble is not None:
@@ -251,6 +290,7 @@ def main():
     try:
         params = default_params.copy()
         params['preamble'] = preamble
+        params['optimizer'] = args.optimizer
         out = latex2svg(latex, params)
         sys.stdout.write(out['svg'])
     except subprocess.CalledProcessError as exc:
