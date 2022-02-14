@@ -59,7 +59,7 @@ optional arguments:
   --version             show program's version number and exit
   --preamble PREAMBLE   LaTeX preamble code to read from file
   --optimizer {scour,svgo,none}
-                        SVG optimzer to use (default: scour)
+                        SVG optimizer to use (default: scour)
 
 $ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
 ```

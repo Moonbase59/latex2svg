@@ -9,7 +9,7 @@ IDs in case more than one is used on the same HTML page.
 
 Based on [original work](https://github.com/tuxu/latex2svg) by Tino Wagner.
 """
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __author__ = 'Matthias C. Hormann'
 __email__ = 'mhormann@gmx.de'
 __license__ = 'MIT'
@@ -280,7 +280,7 @@ def main():
                         help="LaTeX preamble code to read from file")
     parser.add_argument('--optimizer', choices=['scour', 'svgo', 'none'],
         default='scour',
-        help='SVG optimzer to use (default: %(default)s)')
+        help='SVG optimizer to use (default: %(default)s)')
     args = parser.parse_args()
     preamble = default_preamble
     if args.preamble is not None:
