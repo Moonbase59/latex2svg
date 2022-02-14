@@ -15,7 +15,7 @@ The **design goals** are:
 - **Unique IDs** so multiple SVGs on one page won’t corrupt each other.
   - by generating random 4-character ID prefixes within the SVG
 - **Minified SVG** for direct inclusion.
-  - by using `svgo` (a Node app)
+  - by using `scour` (or optionally `svgo`, a Node app)
 - For **_e-book readers_** and **_dictionaries_**:
   - Good legibility.
   - Direct inclusion as `<svg>`, not necessarily `<img>`.
