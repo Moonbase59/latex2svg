@@ -152,7 +152,7 @@ print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 
 - some small bug fixes
 
-**0.3.0** — 2022-02-14
+**0.3.0**, **0.3.1** — 2022-02-14
 
 - Now uses `scour` as default SVG optimizer (instead of `svgo`). This produces
   even smaller SVGs, and it’s "all Python" (`pip3 install scour`).
