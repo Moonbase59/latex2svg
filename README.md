@@ -49,7 +49,7 @@ print(out['svg'])  # rendered SVG
 ```
 $ ./latex2svg.py --help
 usage: latex2svg.py [-h] [--version] [--preamble PREAMBLE]
-                 [--optimizer {scour,svgo,none}]
+                    [--optimizer {scour,svgo,none}] [--scale SCALE]
 
 Render LaTeX code from stdin as SVG to stdout. Writes metadata (baseline
 offset, width, height in em units) into the SVG attributes.
@@ -60,6 +60,7 @@ optional arguments:
   --preamble PREAMBLE   LaTeX preamble code to read from file
   --optimizer {scour,svgo,none}
                         SVG optimizer to use (default: scour)
+  --scale SCALE         SVG output scaling (default: 1.000000)
 
 $ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
 ```
@@ -159,6 +160,12 @@ print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 - The SVG optimizer to be used can now be set via the `--optimizer` command line
   option, or by setting `params['optimizer']` if using this as a Python module.
   Possible values are: `scour` (the default), `svgo` or `none`.
+
+**0.4.0** — 2022-02-16
+
+- Added `--scale` command line option (`params['scale']`) for some rare cases
+  where additional scaling is needed. Float, defaults to `1.000000`.
+- Bugfix: Set `valign` to zero if dvisvgm returns no depth.
 
 ## License
 

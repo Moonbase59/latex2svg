@@ -9,7 +9,7 @@ IDs in case more than one is used on the same HTML page.
 
 Based on [original work](https://github.com/tuxu/latex2svg) by Tino Wagner.
 """
-__version__ = '0.3.1'
+__version__ = '0.4.0'
 __author__ = 'Matthias C. Hormann'
 __email__ = 'mhormann@gmx.de'
 __license__ = 'MIT'
@@ -79,7 +79,7 @@ module.exports = {
 """
 
 latex_cmd = 'latex -interaction nonstopmode -halt-on-error'
-dvisvgm_cmd = 'dvisvgm --no-fonts'
+dvisvgm_cmd = 'dvisvgm --no-fonts --exact-bbox'
 svgo_cmd = 'svgo -i {{ infile }} -o {{ outfile }}'
 # scour uses a default "precision" of 5 significant digits
 # Good enough? Or should we add "--set-precision=7" (or 8)?
@@ -94,6 +94,7 @@ default_params = {
     'preamble': default_preamble,
     'latex_cmd': latex_cmd,
     'dvisvgm_cmd': dvisvgm_cmd,
+    'scale': 1.0,  # default extra scaling (done by dvisvgm)
     'svgo_cmd': svgo_cmd,
     'svgo_config': default_svgo_config,
     'scour_cmd': scour_cmd,
@@ -140,6 +141,7 @@ def latex2svg(code, params=default_params, working_directory=None):
 
     # Caution: TeX & dvisvgm work with TeX pt (1/72.27"), but we need DTP pt (1/72")
     # so we need a scaling factor for correct output sizes
+    # dvisvgm will produce a viewBox in DTP pt but SHOW TeX pt in its output.
     scaling = 1.00375 # (1/72)/(1/72.27)
 
     fontsize = params['fontsize']
@@ -166,8 +168,10 @@ def latex2svg(code, params=default_params, working_directory=None):
         env['LIBGS'] = params['libgs']
 
     # Convert DVI to SVG
+    dvisvgm_cmd = params['dvisvgm_cmd'] + ' --scale=%f' % params['scale']
+    dvisvgm_cmd += ' code.dvi'
     try:
-        ret = subprocess.run(shlex.split(params['dvisvgm_cmd']+' code.dvi'),
+        ret = subprocess.run(shlex.split(dvisvgm_cmd),
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                              cwd=working_directory, env=env)
         ret.check_returncode()
@@ -195,6 +199,9 @@ def latex2svg(code, params=default_params, working_directory=None):
     output = ret.stderr.decode('utf-8')
     width, height = get_size(output)
     depth = get_measure(output, 'depth')
+    # no baseline offset if depth not found
+    if depth is None:
+        depth = 0.0
 
     # Modify SVG attributes, to a get a self-contained, scaling SVG
     from lxml import etree
@@ -281,6 +288,9 @@ def main():
     parser.add_argument('--optimizer', choices=['scour', 'svgo', 'none'],
         default='scour',
         help='SVG optimizer to use (default: %(default)s)')
+    parser.add_argument('--scale', type=float,
+        default=1.0,
+        help='SVG output scaling (default: %(default)f)')
     args = parser.parse_args()
     preamble = default_preamble
     if args.preamble is not None:
@@ -291,6 +301,7 @@ def main():
         params = default_params.copy()
         params['preamble'] = preamble
         params['optimizer'] = args.optimizer
+        params['scale'] = args.scale
         out = latex2svg(latex, params)
         sys.stdout.write(out['svg'])
     except subprocess.CalledProcessError as exc:
