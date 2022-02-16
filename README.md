@@ -13,7 +13,7 @@ The **design goals** are:
 - **Auto scaling** on font size/zoom change.
   - by using `em` units for `width`, `height` and `style`
 - **Unique IDs** so multiple SVGs on one page won’t corrupt each other.
-  - by generating random 4-character ID prefixes within the SVG
+  - by generating random 3-character ID prefixes within the SVG
 - **Minified SVG** for direct inclusion.
   - by using `scour` (or optionally `svgo`, a Node app)
 - For **_e-book readers_** and **_dictionaries_**:
