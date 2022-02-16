@@ -114,7 +114,7 @@ if not hasattr(os.environ, 'LIBGS') and not find_library('gs'):
 
 
 def latex2svg(code, params=default_params, working_directory=None):
-    """Convert LaTeX to SVG using dvisvgm and svgo.
+    """Convert LaTeX to SVG using dvisvgm and scour (or svgo).
 
     Parameters
     ----------
@@ -271,7 +271,7 @@ def latex2svg(code, params=default_params, working_directory=None):
 def main():
     """Simple command line interface to latex2svg.
 
-    - Read from `stdin`.
+    - Read LaTeX code from `stdin`.
     - Write SVG to `stdout`.
     - On error: write error messages to `stderr` and return with error code.
     """
