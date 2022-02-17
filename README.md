@@ -116,9 +116,14 @@ with open('sample2.svg', 'w') as f:
 
 Using SVGs as _inline SVG_ should work perfectly well in all cases.
 
-Should you need to include SVGs as an _external_ HTML `<img>`, you _must_ include <i>latex2svg</i>’s computed <code>valign</code> value
-in the <code>&lt;img&gt;</code> tag as a <code>style="vertical-align: …"</code> attribute to achieve correct alignment.
+Should you need to include SVGs as an _external_ HTML `<img>`, you _must_
+include <i>latex2svg</i>’s computed <code>valign</code> value in the
+<code>&lt;img&gt;</code> tag as a <code>style="vertical-align: …"</code>
+attribute to achieve correct alignment.
 The SVG won’t be stylable using a CSS <code>fill</code> in this case.
+
+*Hint:* You can always find the value later by examining the SVG’s `style`
+attribute.
 
 ```html
 <img src="density.svg" style="vertical-align:-.600321em">
