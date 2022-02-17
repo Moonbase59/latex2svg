@@ -122,7 +122,7 @@ include <i>latex2svg</i>’s computed <code>valign</code> value in the
 attribute to achieve correct alignment.
 The SVG won’t be stylable using a CSS <code>fill</code> in this case.
 
-*Hint:* You can always find the value later by examining the SVG’s `style`
+*Hint:* You can always find the value later by examining the SVG’s root `style`
 attribute.
 
 ```html
