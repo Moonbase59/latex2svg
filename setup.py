@@ -38,4 +38,5 @@ setup(name='latex2svg',
     install_requires=[
         'lxml',
         ],
+    include_package_data=True,
     zip_safe=False)
