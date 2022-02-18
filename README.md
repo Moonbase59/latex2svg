@@ -36,20 +36,18 @@ as the first line in the file.
 ## Installation
 
 As long as the [_PyPI_ name issue](https://github.com/pypa/pypi-support/issues/1699)
-is unresolved, just git clone (or download) this repository,
+is unresolved, just install directly from this repository:
+
+```bash
+pip3 install git+https://github.com/Moonbase59/latex2svg.git#egg=latex2svg
+```
+
+Should your `pip` or setuptools be an older version, or you just prefer to have
+the source code on your machine, you can use
 
 ```bash
 git clone https://github.com/Moonbase59/latex2svg.git
-```
-
-change to its directory
-
-```bash
 cd latex2svg
-```
-and use
-
-```bash
 pip3 install . -U
 ```
 to install it (including the CLI utility `latex2svg`).
