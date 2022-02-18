@@ -33,6 +33,27 @@ Should you need the SVG for other purposes that require the XML prolog, just add
 ```
 as the first line in the file.
 
+## Installation
+
+As long as the _PyPI_ name issue is unresolved, just git clone (or download) this
+repository,
+
+```bash
+git clone https://github.com/Moonbase59/latex2svg.git
+```
+
+change to its directory
+
+```bash
+cd latex2svg
+```
+and use
+
+```bash
+pip3 install . -U
+```
+to install it.
+
 ## Usage
 
 ### Python 3 module
@@ -171,6 +192,12 @@ print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 - Added `--scale` command line option (`params['scale']`) for some rare cases
   where additional scaling is needed. Float, defaults to `1.000000`.
 - Bugfix: Set `valign` to zero if dvisvgm returns no depth.
+
+**0.4.1** — 2022-02-18
+
+- Attempt at making this an installable Python Package. Unfortunately, _PyPI_
+  refuses the name `latex2svg`, although I couldn’t find a package with this name
+  on PyPI. So for now you’ll have to git clone and manually install it.
 
 ## License
 

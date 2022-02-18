@@ -9,7 +9,9 @@ IDs in case more than one is used on the same HTML page.
 
 Based on [original work](https://github.com/tuxu/latex2svg) by Tino Wagner.
 """
-__version__ = '0.4.0'
+
+VERSION = '0.4.1'
+__version__ = VERSION
 __author__ = 'Matthias C. Hormann'
 __email__ = 'mhormann@gmx.de'
 __license__ = 'MIT'
