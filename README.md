@@ -35,8 +35,8 @@ as the first line in the file.
 
 ## Installation
 
-As long as the _PyPI_ name issue is unresolved, just git clone (or download) this
-repository,
+As long as the [_PyPI_ name issue](https://github.com/pypa/pypi-support/issues/1699)
+is unresolved, just git clone (or download) this repository,
 
 ```bash
 git clone https://github.com/Moonbase59/latex2svg.git
