@@ -52,7 +52,8 @@ and use
 ```bash
 pip3 install . -U
 ```
-to install it.
+to install it (including the CLI utility `latex2svg`).
+
 
 ## Usage
 
@@ -68,9 +69,9 @@ print(out['svg'])  # rendered SVG
 ### CLI utility
 
 ```
-$ ./latex2svg.py --help
-usage: latex2svg.py [-h] [--version] [--preamble PREAMBLE]
-                    [--optimizer {scour,svgo,none}] [--scale SCALE]
+$ latex2svg --help
+usage: latex2svg [-h] [--version] [--preamble PREAMBLE]
+                 [--optimizer {scour,svgo,none}] [--scale SCALE]
 
 Render LaTeX code from stdin as SVG to stdout. Writes metadata (baseline
 offset, width, height in em units) into the SVG attributes.
@@ -83,7 +84,7 @@ optional arguments:
                         SVG optimizer to use (default: scour)
   --scale SCALE         SVG output scaling (default: 1.000000)
 
-$ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | ./latex2svg.py > sample.svg
+$ echo '$\sin(x) = \sum_{n=0}^{\infty} \dots$' | latex2svg > sample.svg
 ```
 
 Result:
