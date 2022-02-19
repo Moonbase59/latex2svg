@@ -42,6 +42,13 @@ is unresolved, just install directly from this repository:
 pip3 install git+https://github.com/Moonbase59/latex2svg.git#egg=latex2svg
 ```
 
+A specific _version_ can be installed by adding that version’s
+[_tag_](https://github.com/Moonbase59/latex2svg/tags) to the command:
+
+```bash
+pip3 install git+https://github.com/Moonbase59/latex2svg.git@v0.4.1#egg=latex2svg
+```
+
 Should your `pip` or setuptools be an older version, or you just prefer to have
 the source code on your machine, you can use
 
