@@ -167,6 +167,20 @@ with open('sample3.svg', 'w') as f:
 print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 ```
 
+A complete `<img>` definition (to avoid rendering side effects) would look like:
+
+```python
+print('<img src="sample3.svg" style="width:%.6fem;height:%.6fem;vertical-align:%.6fem">'
+    % (out['width'], out['height'], out['valign']))
+```
+
+and result in:
+
+```html
+<img src="sample3.svg" style="width:6.891840em;height:1.054628em;vertical-align:-0.313464em">
+```
+
+
 ## Requirements
 
 - Python 3
@@ -174,6 +188,7 @@ print('<img src="sample3.svg" style="vertical-align:%.6fem">' % out['valign'])
 - [dvisvgm](https://dvisvgm.de/)
 - [scour](https://github.com/scour-project/scour) (preferred and default), **—or—**
 - [svgo](https://github.com/svg/svgo)
+
 
 ## Change Log
 
