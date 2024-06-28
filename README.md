@@ -1,5 +1,7 @@
 # latex2svg
 
+**If you like what you got, please consider to [![Donate with Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=PBPR63362LDEU). Thank you! ❤️**
+
 Python wrapper and CLI utility to render LaTeX markup and equations as SVG using
 [dvisvgm](https://dvisvgm.de/) and [scour](https://github.com/scour-project/scour)
 (or optionally [svgo](https://github.com/svg/svgo)).
